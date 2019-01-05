@@ -1,6 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import itchat,pygame,time
+import itchat,pygame,time,datetime
 
 flag="THIS SHADE/SIZE: SOLD OUT" #缺货标志
 proFile="缺货产品URL.txt"        #需要检测的产品链接文件
@@ -13,8 +13,14 @@ def catchUrl(url):
     options.add_argument('--headless')# 无头模式启动
     options.add_argument('--disable-gpu')# 谷歌文档提到需要加上这个属性来规避bug
     driver= webdriver.Chrome(options=options)
-    driver.get(url)#获取页面
-    text=driver.find_element_by_class_name('sold-out').text
+    text=flag
+    try:
+        driver.get(url)#获取页面
+        time.sleep(10)
+        text = driver.find_element_by_class_name('sold-out').text
+    except BaseException:
+        driver.quit()
+        return text
     driver.quit()#退出关闭浏览器
     return text
 
@@ -45,16 +51,16 @@ itchat.auto_login(hotReload=True)
 
 while True:
     urls=open(proFile).readlines()#读取url列表
+    urls=[url.strip() for url in urls if url.strip()!='']
     newUrls=[]#未补货的列表
     for url in urls:
         if flag==catchUrl(url):
             newUrls.append(url)
-            print(proName(url) + "没货\n链接："+url)
+            print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')+"  "+proName(url) + " 没货\n链接："+url)
         else:
-            sendMessage(url)
+            #sendMessage(url)
             playMusic()
             print(proName(url)+"有货\n链接："+url)
     if newUrls is None:
         break
     open(proFile,'w').write('\n'.join(newUrls))
-    
