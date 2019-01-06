@@ -58,7 +58,7 @@ while True:
             newUrls.append(url)
             print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')+"  "+proName(url) + " 没货\n链接："+url)
         else:
-            #sendMessage(url)
+            sendMessage(url)
             playMusic()
             print(proName(url)+"有货\n链接："+url)
     if newUrls is None:
