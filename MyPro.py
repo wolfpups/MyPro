@@ -19,7 +19,6 @@ def catchUrl(url):
     result=False
     try:
         driver.get(url)#获取页面
-        #time.sleep(10)
         addButton=driver.find_element_by_class_name("product-full__add-button")
         soldOutLi=driver.find_element_by_class_name("sold-out")
         addDisplayed=addButton.is_displayed()
@@ -55,7 +54,7 @@ def playMusic():
     pygame.mixer.music.play(-1)
 
 def getList(filename):
-    lines=open(filename).readlines()
+    lines=open(filename,encoding='utf8').readlines()
     lines=[line.strip() for line in lines if line.strip()!='']
     return lines
 
@@ -79,7 +78,8 @@ while True:
         else:
             newUrls.append(url)
             print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')+"  "+title + " 没货\n链接："+url+"\n")
+        time.sleep(int(getList("延迟时间.txt")[0]))
     if newUrls==[]:
         print("没有新的链接需要检测,添加链接后重新运行程序")
         break
-    open(proFile,'w').write('\n'.join(newUrls))
+    open(proFile,'w',encoding='utf8').write('\n'.join(newUrls))
