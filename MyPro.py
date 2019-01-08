@@ -11,6 +11,7 @@ title=""
 options = Options()
 options.add_argument('--headless')# 无头模式启动
 options.add_argument('--disable-gpu')# 谷歌文档提到需要加上这个属性来规避bug
+options.add_argument('log-level=3')
 
 def catchUrl(url):
     #捕获产品链接,返回是否有货标志
