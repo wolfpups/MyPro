@@ -20,6 +20,7 @@ def catchUrl(url):
     result=False
     try:
         driver.get(url)#获取页面
+        time.sleep(int(getList("延迟时间.txt")[0]))
         addButton=driver.find_element_by_class_name("product-full__add-button")
         soldOutLi=driver.find_element_by_class_name("sold-out")
         addDisplayed=addButton.is_displayed()
@@ -40,11 +41,11 @@ def catchUrl(url):
 
 def sendMessage(url):
     #向微信推送货物消息
-    wxs=open(wxFile).readlines()#读取接受微信消息列表
+    #wxs=open(wxFile).readlines()#读取接受微信消息列表
     wxs=getList(wxFile)
     msg=title+"有货,链接："+url
     for wx in wxs:
-        user=itchat.search_friends(name=wx.strip())
+        user=itchat.search_friends(name=wx.encode('utf-8').decode('utf-8-sig').strip())
         userName = user[0]['UserName']
         itchat.send(msg=msg,toUserName=userName)
 
@@ -52,7 +53,8 @@ def playMusic():
     #播放提示音
     pygame.mixer.init()
     track = pygame.mixer.music.load(musFile)
-    pygame.mixer.music.play(-1)
+    pygame.mixer.music.play(60)#-1一直播放
+
 
 def getList(filename):
     lines=open(filename,encoding='utf8').readlines()
@@ -79,7 +81,6 @@ while True:
         else:
             newUrls.append(url)
             print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')+"  "+title + " 没货\n链接："+url+"\n")
-        time.sleep(int(getList("延迟时间.txt")[0]))
     if newUrls==[]:
         print("没有新的链接需要检测,添加链接后重新运行程序")
         break
