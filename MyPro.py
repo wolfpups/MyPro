@@ -39,11 +39,10 @@ def catchUrl(url):
 
 def sendMessage(url):
     #向微信推送货物消息
-    wxs=open(wxFile).readlines()#读取接受微信消息列表
-    wxs=getList(wxFile)
+    wxs=getList(wxFile)#读取接受微信消息列表
     msg=title+"有货,链接："+url
     for wx in wxs:
-        user=itchat.search_friends(name=wx.strip())
+        user=itchat.search_friends(name=wx.encode('utf-8').decode('utf-8-sig').strip())
         userName = user[0]['UserName']
         itchat.send(msg=msg,toUserName=userName)
 
