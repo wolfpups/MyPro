@@ -12,6 +12,8 @@ options = Options()
 options.add_argument('--headless')# 无头模式启动
 options.add_argument('--disable-gpu')# 谷歌文档提到需要加上这个属性来规避bug
 options.add_argument('log-level=3')
+options.add_argument('Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36')
+
 
 def catchUrl(url):
     #捕获产品链接,返回是否有货标志
@@ -57,7 +59,7 @@ def playMusic():
 
 
 def getList(filename):
-    lines=open(filename,encoding='utf8').readlines()
+    lines=open(filename,encoding='UTF-8-sig').readlines()
     lines=[line.strip() for line in lines if line.strip()!='']
     return lines
 
@@ -83,5 +85,6 @@ while True:
             print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')+"  "+title + " 没货\n链接："+url+"\n")
     if newUrls==[]:
         print("没有新的链接需要检测,添加链接后重新运行程序")
+        open(proFile,'w',encoding='utf8').write('\n'.join(newUrls))
         break
     open(proFile,'w',encoding='utf8').write('\n'.join(newUrls))
