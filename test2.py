@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import time
+
+import time,random
 
 options = Options()
 #options.add_argument('--headless')# 无头模式启动
@@ -26,4 +27,6 @@ while True:
            # break
     except:
         print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) +'没货')
-    time.sleep(60)
+    rn=random.randint(60,180)#随机等待60-180秒
+    print('等待: '+str(rn)+' 秒')
+    time.sleep(rn)
