@@ -14,7 +14,7 @@ musFile="v2.mp3"                 #提示音文件
 
 ua=UserAgent(verify_ssl=False)
 options = Options()
-#options.add_argument('--headless')# 无头模式启动
+options.add_argument('--headless')# 无头模式启动
 options.add_argument('--disable-gpu')# 谷歌文档提到需要加上这个属性来规避bug
 options.add_argument('log-level=3')
 options.add_argument(ua.random)#随机获取UserAgent
@@ -37,13 +37,14 @@ def catchUrl(url):
         #closeOtherHandles(driver)
         driver.get(url)#获取页面
         #UI.WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, 'loyalty_popover__link-container')))
-        time.sleep(3)
+        time.sleep(5)
         ActionChains(driver).move_by_offset(10, 50).click().perform()
-        time.sleep(3)    
+        time.sleep(5)
+        ActionChains(driver).move_by_offset(10, 50).click().perform()     
         addButton=driver.find_element_by_class_name("product-full__add-button")#获取Add To Bag按钮
         cartCount=driver.find_element_by_class_name("utility-nav__cart-count")#获取CartCount
         addButton.click()#点击Add To Bag按钮,有货页面cartCount会加1，没货页面将触发异常
-        time.sleep(3)
+        time.sleep(5)
         if cartCount.text!='':
             result=True
             print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) +' --- '+cartCount.text)

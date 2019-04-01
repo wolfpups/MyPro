@@ -44,7 +44,7 @@ def catchUrl(url):
         cartCount=driver.find_element_by_class_name("utility-nav__cart-count")#获取CartCount
         addButton.click()#点击Add To Bag按钮,有货页面cartCount会加1，没货页面将触发异常
         time.sleep(5)
-        if cartCount.text!='':
+        if cartCount.text=='1':
             result=True
             print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) +' --- '+cartCount.text)
     except BaseException as err:
@@ -92,8 +92,8 @@ while True:
         if catchUrl(url):
             if getList(wxFile)!=[]:
                 sendMessage(url)
-            #playMusic()
-            newUrls.append(url)#测试用,发布时需要删除
+            playMusic()
+            #newUrls.append(url)#测试用,发布时需要删除
             print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) +' 有货 链接:'+url)
         else:
             newUrls.append(url)
